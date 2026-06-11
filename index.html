@@ -685,7 +685,9 @@
 </style>
 </head>
 <body>
-
+<audio id="bgMusic" loop preload="auto">
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
 <!-- ═══════════════════════════════════
      OPENING SCREEN
 ═══════════════════════════════════ -->
@@ -931,32 +933,36 @@
 <script>
   // ── Opening screen ──
   function openInvitation() {
-    const opening = document.getElementById('opening-screen');
-    const main = document.getElementById('main-content');
+  const opening = document.getElementById('opening-screen');
+  const main = document.getElementById('main-content');
 
-    // Animate card out
-    const card = document.querySelector('.opening-card');
-    card.style.transition = 'all 0.9s cubic-bezier(0.4,0,0.2,1)';
-    card.style.transform = 'scale(0.85) translateY(-40px) rotateX(20deg)';
-    card.style.opacity = '0';
+  // Play music when user clicks
+  const music = document.getElementById('bgMusic');
+  music.volume = 0.4; // optional
+  music.play().catch(err => console.log(err));
 
-    // Sparkles burst
-    document.querySelectorAll('.sparkle').forEach((s, i) => {
-      setTimeout(() => {
-        s.style.animation = 'none';
-        s.style.opacity = '1';
-        s.style.transform = 'scale(3)';
-        s.style.transition = 'all 0.5s ease';
-        setTimeout(() => { s.style.opacity = '0'; }, 400);
-      }, i * 60);
-    });
+  // Animate card out
+  const card = document.querySelector('.opening-card');
+  card.style.transition = 'all 0.9s cubic-bezier(0.4,0,0.2,1)';
+  card.style.transform = 'scale(0.85) translateY(-40px) rotateX(20deg)';
+  card.style.opacity = '0';
 
+  document.querySelectorAll('.sparkle').forEach((s, i) => {
     setTimeout(() => {
-      opening.classList.add('hidden');
-      main.classList.add('revealed');
-      window.scrollTo(0, 0);
-    }, 700);
-  }
+      s.style.animation = 'none';
+      s.style.opacity = '1';
+      s.style.transform = 'scale(3)';
+      s.style.transition = 'all 0.5s ease';
+      setTimeout(() => { s.style.opacity = '0'; }, 400);
+    }, i * 60);
+  });
+
+  setTimeout(() => {
+    opening.classList.add('hidden');
+    main.classList.add('revealed');
+    window.scrollTo(0, 0);
+  }, 700);
+}
 
   // ── Countdown ──
   function tick() {
